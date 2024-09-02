@@ -80,8 +80,62 @@ async function addUser(event){
     }else {
         alert("something went wrong");
     }
-
-    
-
-
 }
+
+
+
+
+async function fetchData() {
+
+    try {
+      
+
+    let datas = await fetch("/submit");
+    let parsed_datas = await datas.json();
+    console.log("parsed_datas : ", parsed_datas);
+
+  
+
+    let datacontainer = document.getElementById('datacontainer');
+
+
+    // let Datacontainer2 = document.getElementById('datacontainerdiv2');
+
+    // let Datacontainer3 = document.getElementById('datacontainerdiv3');
+
+
+  let rows = '';
+
+//   let rows2 = '';
+//   let rows3 = '';
+
+ 
+  
+  for(i=0 ; i < parsed_datas.length ; i++){
+
+      
+        rows = rows + `
+        
+       <div class="container mt-5 shadow p-3 mb-5 bg-body rounded">
+        <div id = "titleid">${parsed_datas[i].title}</div>
+        <div id = "descriptionid">${parsed_datas[i].description.slice(0,150)+"..."}</div>
+        <div id = "categoryid">${parsed_datas[i].category}</div>
+         <div id = "priceid">${parsed_datas[i].price}</div>
+        <div id = "ratingid">Rating : ${parsed_datas[i].ratingrate}</div>
+        <div id = "imageid" ><img onclick="handleClick(${parsed_datas[i].id})" src ="${parsed_datas[i].imageurl} "class = "datacontainerimg"></div>
+       </div>
+        `
+        
+      }
+      
+       datacontainer.innerHTML=rows;
+
+   
+    }
+    
+catch (error) {
+      console.log("error : ", error);
+    }
+
+
+  }

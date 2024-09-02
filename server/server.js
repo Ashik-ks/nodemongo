@@ -19,6 +19,8 @@ const server = http.createServer( async (req,res) => {
     }
 
     connect();
+    let db = client.db("dms1");
+    let collection = db.collection("users1")
 
     const req_url = req.url;
     console.log("req_url : ",req_url);
@@ -32,20 +34,33 @@ const server = http.createServer( async (req,res) => {
         res.writeHead(200,{'Content-Type' : 'text/html'});
         res.end(fs.readFileSync('../client/index.html'));
     }
+    
     if(parsed_url.pathname === '/adduser.html'){
         //serve the html file on root request
     
         res.writeHead(200,{'Content-Type' : 'text/html'});
         res.end(fs.readFileSync('../client/adduser.html'));
     }
+    
+    if(parsed_url.pathname === '/view.html'){    
+        res.writeHead(200,{'Content-Type' : 'text/html'});
+        res.end(fs.readFileSync('../client/view.html'));
+    }
+    if(parsed_url.pathname === '/images'){    
+        res.writeHead(200,{'Content-Type' : 'text/images'});
+        res.end(fs.readFileSync('../client/images'));
+    }
+    
     else if(parsed_url.pathname === '/style.css'){
         res.writeHead(200,{'Content-Type' : 'text/css'});
         res.end(fs.readFileSync('../client/style.css'));
     }
+    
     else if(parsed_url.pathname === '/script.js'){
         res.writeHead(200,{'Content-Type' : 'text/javascript'});
         res.end(fs.readFileSync('../client/script.js'));
     }
+    
     else if(parsed_url.pathname === '/submit'  &&  req.method === 'POST'){
         console.log("reached here");
 
@@ -57,13 +72,12 @@ const server = http.createServer( async (req,res) => {
         });
 
         req.on('end',()=>{
-            let db = client.db("dms1");
-            let collection = db.collection("users1")
+           
             console.log("body : ",body)
        
         
         let datas = JSON.parse(body);
-        console.log("datas : ",datas);
+        console.log("datas7 : ",datas);
          let id = datas.id;
          let title = datas.title;
          let description = datas.description;
@@ -150,15 +164,17 @@ const server = http.createServer( async (req,res) => {
     }
     else if (parsed_url.pathname === '/submit' && req.method === 'GET') {
        
+        // let db = client.db("dms1");
+        // let collection = db.collection("users1");
+
         let userDatas = await  collection.find().toArray();
         console.log("userDatas : ",userDatas);
 
         let json_datas = JSON.stringify(userDatas);
         console.log("json_datas : ",json_datas);
 
-        res.writeHead(200,{'Content-Type' : "adduser.html"});
-        res.end(fs.readFileSync('../client/adduser.html'));
-        // res.end(json_datas);
+        res.writeHead(200,{'Content-Type' : "text/json"});
+        res.end(json_datas);
     }
 
 })
