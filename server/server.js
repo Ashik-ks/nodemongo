@@ -46,6 +46,15 @@ const server = http.createServer( async (req,res) => {
         res.writeHead(200,{'Content-Type' : 'text/javascript'});
         res.end(fs.readFileSync('../client/script.js'));
     }
+    else if(parsed_url.pathname === '/script1.js'){
+        res.writeHead(200,{'Content-Type' : 'text/javascript'});
+        res.end(fs.readFileSync('../ui/script1.js'));
+    }
+    else if(parsed_url.pathname === '/index1.html'){
+        res.writeHead(200,{'Content-Type' : 'text/html'});
+        res.end(fs.readFileSync('../client/index1.html'));
+    }
+
     else if(parsed_url.pathname === '/submit'  &&  req.method === 'POST'){
         console.log("reached here");
 
@@ -58,7 +67,7 @@ const server = http.createServer( async (req,res) => {
 
         req.on('end',()=>{
             let db = client.db("dms1");
-            let collection = db.collection("users1")
+            let collection= db.collection("users1")
             console.log("body : ",body)
        
         
@@ -135,7 +144,7 @@ const server = http.createServer( async (req,res) => {
         })
         .then((message) => {
             console.log("message :",message);
-            res.writeHead(201,{'COntent-Type' : "text/plain"});
+            res.writeHead(201,{'Content-Type' : "text/plain"});
             res.end("User created Succesfully");
         })
         .catch((error) => {
@@ -147,18 +156,17 @@ const server = http.createServer( async (req,res) => {
 
     });
 
-    }
-    else if (parsed_url.pathname === '/submit' && req.method === 'GET') {
+    }else if (parsed_url.pathname === '/submit' && req.method === 'GET') {
        
-        let userDatas = await  collection.find().toArray();
+        let userDatas = await collection.find().toArray();
         console.log("userDatas : ",userDatas);
 
         let json_datas = JSON.stringify(userDatas);
         console.log("json_datas : ",json_datas);
 
-        res.writeHead(200,{'Content-Type' : "adduser.html"});
-        res.end(fs.readFileSync('../client/adduser.html'));
-        // res.end(json_datas);
+        res.writeHead(200,{'Content-Type' : "text/json"});
+        // res.end(fs.readFileSync('../client/adduser.html'));
+        res.end(json_datas);
     }
 
 })

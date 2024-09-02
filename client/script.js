@@ -63,7 +63,7 @@ async function addUser(event){
     console.log("json_data : ",json_data);
 
     let response = await fetch('/submit',{
-        method : 'post',
+        method : 'POST',
         headers : {
             'Content-Type'  : "application/json"
         },
@@ -83,5 +83,29 @@ async function addUser(event){
 
     
 
-
 }
+
+// async function fetchData() {
+//     try {  
+//     let datas = await fetch("/submit");
+//     let parsed_datas = await datas.json();
+//     console.log("parsed_datas : ", parsed_datas);
+//       let datacontainer = document.getElementById('datacontainer');
+//     let rows = '';
+  
+  
+//     for(i=0 ; i < parsed_datas.length ; i++){
+//       rows = rows + `
+//       <div>${parsed_datas[i].id}</div>
+//       `
+      
+     
+//       }
+//       datacontainer.innerHTML=rows;  
+//     } 
+//      catch (error) {
+//       console.log("error : ", error);
+//     }
+//   }
+  
+//   fetchData();
