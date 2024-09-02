@@ -63,7 +63,7 @@ async function addUser(event){
     console.log("json_data : ",json_data);
 
     let response = await fetch('/submit',{
-        method : 'post',
+        method : 'POST',
         headers : {
             'Content-Type'  : "application/json"
         },
@@ -137,5 +137,6 @@ catch (error) {
       console.log("error : ", error);
     }
 
+}
 
-  }
+
