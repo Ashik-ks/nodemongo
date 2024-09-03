@@ -46,6 +46,10 @@ const server = http.createServer( async (req,res) => {
         res.writeHead(200,{'Content-Type' : 'text/html'});
         res.end(fs.readFileSync('../client/view.html'));
     }
+    if(parsed_url.pathname === '/single.html'){    
+        res.writeHead(200,{'Content-Type' : 'text/html'});
+        res.end(fs.readFileSync('../client/single.html'));
+    }
     if(parsed_url.pathname === '/images'){    
         res.writeHead(200,{'Content-Type' : 'text/img'});
         res.end(fs.readFileSync('../client/images'));
