@@ -3,7 +3,7 @@ const PORT = 3000;
 const url = require('url');
 const fs = require('fs');
 const querystring = require('querystring');
-const {MongoClient} = require('mongodb');
+const {MongoClient, ObjectId} = require('mongodb');
 
 const server = http.createServer( async (req,res) => {
 
@@ -47,7 +47,7 @@ const server = http.createServer( async (req,res) => {
         res.end(fs.readFileSync('../client/view.html'));
     }
     if(parsed_url.pathname === '/images'){    
-        res.writeHead(200,{'Content-Type' : 'text/images'});
+        res.writeHead(200,{'Content-Type' : 'text/img'});
         res.end(fs.readFileSync('../client/images'));
     }
     
@@ -161,7 +161,8 @@ const server = http.createServer( async (req,res) => {
 
     });
 
-    }else if (parsed_url.pathname === '/submit' && req.method === 'GET') {
+    }
+    else if (parsed_url.pathname === '/submit' && req.method === 'GET') {
        
 
         let userDatas = await collection.find().toArray();
@@ -176,6 +177,38 @@ const server = http.createServer( async (req,res) => {
         // res.end(fs.readFileSync('../client/adduser.html'));
 
         res.end(json_datas);
+    }
+    else if (parsed_url.pathname === '/user'  && req.method === 'GET') {
+         let body;
+
+         req.on('data' , (chunks) => {
+            console.log("chunks : " ,chunks);
+
+            body = chunks.toString();
+         });
+
+         req.on('end',async () => {
+            console.log("body : ",body);
+
+            let parsed_body = JSON.parse(body);
+            console.log("parsed_body : ",parsed_body)
+
+            let id = parsed_body.id;
+            console.log("id : ",id)
+            console.log("typeof id : ",typeof(id));
+
+            let _id = new ObjectId(id);
+            console.log("_id : ",_id);
+
+            let userdatas = await collection.findOne({_id});
+            console.log("userdatas : ",userdatas);
+
+            let json_Data = JSON.stringify(userdatas);
+
+            res.writeHead(200, {'Content-Type' : "text/json"});
+            res.end(json_Data);
+
+        })
     }
 
 })
