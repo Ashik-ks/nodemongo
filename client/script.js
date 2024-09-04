@@ -118,13 +118,13 @@
             rows = rows + `
             
            <div class="container mt-5 shadow p-3 mb-5 bg-body rounded lh-lg">
-           <div id = "imageid" ><img onclick="handleClick(${parsed_datas[i]._id})" src ="${parsed_datas[i].imageurl} "class = "datacontainerimg"></div>
+           <div id = "imageid" ><img onclick="handleClick(${parsed_datas[i].id})" src ="${parsed_datas[i].imageurl} "class = "datacontainerimg"></div>
             <div id = "titleid">${parsed_datas[i].title}</div>
             <div id = "descriptionid">${parsed_datas[i].description.slice(0,150)+"..."}</div>
             <div id = "categoryid">${parsed_datas[i].category}</div>
              <div id = "priceid">${parsed_datas[i].price}</div>
             <div id = "ratingid">Rating : ${parsed_datas[i].ratingrate}</div>
-            <div id="btnid" class = "text-center"><button onclick="handleClick(${parsed_datas[i]._id})">Details</button></div>
+            <div id="btnid" class = "text-center"><button onclick="handleClick(${parsed_datas[i].id})">Details</button></div>
            </div>
            
            `
@@ -138,16 +138,16 @@
           console.log("error : ", error);
         }
     }
-    function  handleClick(_id){
+    function  handleClick(){
         console.log("button clicked");
-        console.log("button clicked id :",_id)
-        window.location.href =`single.html?_id=${_id}`
+        console.log("button clicked id :",)
+        window.location.href =`single.html`
         return;
       }
       async function fetchDatas(){
         
         try {
-            let parsed_datas1 =  JSON.stringify(parsed_datas);
+            let parsed_datas1 =  JSON.stringify();
 
             let datas1 = await fetch("/user",{
                 method : "GET",
