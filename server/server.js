@@ -212,7 +212,7 @@ const server = http.createServer( async (req,res) => {
             res.writeHead(200, {'Content-Type' : "text/json"});
             res.end(json_Data);
 
-        })
+        });
     }
 
 })

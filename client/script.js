@@ -112,65 +112,53 @@
     
      
       
-      for(i=0 ; i < parsed_datas.length ; i++){
+      for(i=0 ; i< parsed_datas.length ; i++){
     
           
             rows = rows + `
             
            <div class="container mt-5 shadow p-3 mb-5 bg-body rounded lh-lg">
-           <div id = "imageid" ><img onclick="handleClick(${parsed_datas[i].id})" src ="${parsed_datas[i].imageurl} "class = "datacontainerimg"></div>
+           <div id = "imageid" ><img onclick="handleClick(${parsed_datas[i]._id})" src ="${parsed_datas[i].imageurl} "class = "datacontainerimg"></div>
             <div id = "titleid">${parsed_datas[i].title}</div>
             <div id = "descriptionid">${parsed_datas[i].description.slice(0,150)+"..."}</div>
             <div id = "categoryid">${parsed_datas[i].category}</div>
              <div id = "priceid">${parsed_datas[i].price}</div>
             <div id = "ratingid">Rating : ${parsed_datas[i].ratingrate}</div>
-            <div id="btnid" class = "text-center"><button onclick="handleClick(${datas[i]})">Details</button></div>
+            <div id="btnid" class = "text-center"><button onclick="handleClick(${parsed_datas[i]._id})">Details</button></div>
            </div>
-            `
-            
+           
+           `
+           console.log("parsed_datas._id : ",parsed_datas[i]._id)
           }
-          
-           datacontainer.innerHTML=rows;
-    
-       
-        }
         
+           datacontainer.innerHTML=rows;
+          
+        }
     catch (error) {
           console.log("error : ", error);
         }
-    
     }
-    
-    function  handleClick(id){
+    function  handleClick(_id){
         console.log("button clicked");
-        console.log("button clicked id :",id)
-        window.location.href =`single.html?id=${id}`
+        console.log("button clicked id :",_id)
+        window.location.href =`single.html?_id=${_id}`
         return;
       }
-    
       async function fetchDatas(){
         
         try {
-          
-            
-       
-            // let location = window.location;
-            // console.log("location", location);
-        
-            // let querystring = location.search;
-            // console.log("querystring", querystring);
-        
-        
-            // let urlParams = new URLSearchParams(querystring);
-            // console.log("url", urlParams);
-        
-            // let id = urlParams.get("id");
-            // console.log("id ", id);
-    
-    
-            let datas1 = await fetch("/user");
-            let parsed_datas1 = await datas1.json();
-            console.log("parsed_datas1 : ", parsed_datas1);
+            let parsed_datas1 =  JSON.stringify(parsed_datas);
+
+            let datas1 = await fetch("/user",{
+                method : "GET",
+                headers : {
+                    'Content-Type' : "text/json"
+                },
+                body : parsed_datas1
+            });
+            console.log("response : ",datas1)
+           
+            // console.log("parsed_datas1 : ", parsed_datas1);
         
           
         
