@@ -113,22 +113,25 @@
      
       
       for(i=0 ; i< parsed_datas.length ; i++){
-    
+        
+        let id = parsed_datas[i]._id
+      
+        
           
             rows = rows + `
             
            <div class="container mt-5 shadow p-3 mb-5 bg-body rounded lh-lg">
-           <div id = "imageid" ><img onclick="handleClick(${parsed_datas[i].id})" src ="${parsed_datas[i].imageurl} "class = "datacontainerimg"></div>
+           <div id = "imageid" ><img onclick="handleClick('${id}')" src ="${parsed_datas[i].imageurl} "class = "datacontainerimg"></div>
             <div id = "titleid">${parsed_datas[i].title}</div>
             <div id = "descriptionid">${parsed_datas[i].description.slice(0,150)+"..."}</div>
             <div id = "categoryid">${parsed_datas[i].category}</div>
              <div id = "priceid">${parsed_datas[i].price}</div>
             <div id = "ratingid">Rating : ${parsed_datas[i].ratingrate}</div>
-            <div id="btnid" class = "text-center"><button onclick="handleClick(${parsed_datas[i].id})">Details</button></div>
+            <div id="btnid" class = "text-center"><button onclick="handleClick('${id}')">Details</button></div>
            </div>
            
            `
-           console.log("parsed_datas._id : ",parsed_datas[i]._id)
+           console.log("mongodb_id : ",id)
           }
         
            datacontainer.innerHTML=rows;
@@ -138,69 +141,58 @@
           console.log("error : ", error);
         }
     }
-    function  handleClick(){
-        console.log("button clicked");
-        console.log("button clicked id :",)
-        window.location.href =`single.html`
-        return;
-      }
-      async function fetchDatas(){
-        
-        try {
-            let parsed_datas1 =  JSON.stringify();
 
-            let datas1 = await fetch("/user",{
-                method : "GET",
-                headers : {
-                    'Content-Type' : "text/json"
-                },
-                body : parsed_datas1
-            });
-            console.log("response : ",datas1)
-           
-            // console.log("parsed_datas1 : ", parsed_datas1);
+
+    function  handleClick(id){
+        console.log("button clicked",id);
+        console.log("button clicked id :",id)
+        window.location.href =`single.html?id='${id}'`
         
-          
-        
-//             let datacontainer = document.getElementById('datacontainer');
-        
-        
-//             // let Datacontainer2 = document.getElementById('datacontainerdiv2');
-        
-//             // let Datacontainer3 = document.getElementById('datacontainerdiv3');
-        
-        
-//           let rows = '';
-        
-//         //   let rows2 = '';
-//         //   let rows3 = '';
-        
-         
-          
-//           for(i=0 ; i < parsed_datas.length ; i++){
-        
-              
-//                 rows = rows + `
-                
-//                <div class="container mt-5 shadow p-3 mb-5 bg-body rounded lh-lg">
-//                 <div id = "titleid">${parsed_datas1[i].title}</div>
-//                 <div id = "descriptionid">${parsed_datas1[i].description.slice(0,150)+"..."}</div>
-//                 <div id = "categoryid">${parsed_datas1[i].category}</div>
-//                  <div id = "priceid">${parsed_datas1[i].price}</div>
-//                 <div id = "ratingid">Rating : ${parsed_datas1[i].ratingrate}</div>
-//                </div>
-//                 `
-                
-//               }
-              
-//                datacontainer.innerHTML=rows;
-        
-           
-            }
-            
-        catch (error) {
-              console.log("error : ", error);
-            }
-    
       }
+     
+
+
+async function fetchDatas() {
+
+    try {
+        let location = window.location;
+        console.log("location", location);
+
+        let querystring = location.search;
+        console.log("querystring", querystring);
+
+
+        let urlParams = new URLSearchParams(querystring);
+        console.log("url", urlParams);
+
+        let ids = urlParams.get("id");
+        console.log("id ", ids);
+
+        let display = await fetch("/user");
+        let parsed_datas1 =json.parse(display);
+        console.log("parsed_datas1 : ", parsed_datas1);
+
+        // let xhr = new XMLHttpRequest();
+        // xhr.open("get", `/user/'${ids}' `)
+        // xhr.send();
+        // xhr.onreadystatechange = function () {
+        //   if (xhr.readyState === 4) {
+        //       console.log("status:", xhr.status);
+        //       if (xhr.status === 200) {
+        //           console.log("success");
+        //           let userData = xhr.response;
+        //           console.log("userData:",userData);
+        //           let parsed_userData = JSON.parse (userData);
+        //           console.log("parsed_userData",parsed_userData);
+
+
+        //           }
+        //        }
+        //     }
+    }
+    catch (error) {
+        console.log("error : ", error);
+    }
+
+}
     
